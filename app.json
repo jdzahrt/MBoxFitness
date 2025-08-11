@@ -4,7 +4,12 @@
     "slug": "MBoxFitness",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "icon": "./app/assets/MBOX.jpeg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -13,17 +18,25 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "jsEngine": "hermes",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jesse.zahrt.MBoxFitness",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true
+      "jsEngine": "hermes",
+      "package": "com.jesse.zahrt.MBoxFitness"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "83a39a02-22bf-4625-87cf-c4abf0daf512"
+      }
     }
   }
 }
