@@ -74,14 +74,14 @@ function LoginScreen(props) {
 const styles = StyleSheet.create({
     container: {
         padding: 10,
-        color: colors.black
+        backgroundColor: colors.white
     },
     logo: {
         width: 150,
         height: 150,
         alignSelf: 'center',
         marginTop: 50,
-        marginBottom: 20
+        marginBottom: 20,
     }
 });
 

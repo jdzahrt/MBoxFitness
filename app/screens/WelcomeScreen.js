@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: colors.dark
+        backgroundColor: colors.black
     },
     buttonsContainer: {
         position: 'absolute',
