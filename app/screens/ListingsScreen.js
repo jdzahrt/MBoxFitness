@@ -10,22 +10,70 @@ import listingsAPI from "../api/listings";
 
 
 function ListingsScreen({navigation}) {
-    const getListingsApi = useApi(listingsAPI.getListings)
+    // const getListingsApi = useApi(listingsAPI.getListings)
+    //
+    //
+    // useEffect(() => {
+    //     getListingsApi.request();
+    // }, []);
+    const mockListings = [
+        {
+            id: 1,
+            title: "Personal Training Session",
+            price: 75,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150"
+                }
+            ]
+        },
+        {
+            id: 2,
+            title: "Yoga Class Package",
+            price: 120,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=150"
+                }
+            ]
+        },
+        {
+            id: 3,
+            title: "CrossFit Membership",
+            price: 89,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150"
+                }
+            ]
+        },
+        {
+            id: 4,
+            title: "Nutrition Consultation",
+            price: 65,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150"
+                }
+            ]
+        }
+    ];
 
-
-    useEffect(() => {
-        getListingsApi.request();
-    }, []);
+    const getListingsApi = { data: mockListings, error: null };
 
     return (
         <>
             <Screen style={styles.screen}>
-                {getListingsApi.error && (
-                    <>
-                        <Text>Could not retrieve the listings.</Text>
-                        <AppButton title="Retry" onPress={getListingsApi.request}/>
-                    </>
-                )}
+                {/*{getListingsApi.error && (*/}
+                {/*    <>*/}
+                {/*        <Text>Could not retrieve the listings.</Text>*/}
+                {/*        <AppButton title="Retry" onPress={getListingsApi.request}/>*/}
+                {/*    </>*/}
+                {/*)}*/}
 
                 <FlatList
                     data={getListingsApi.data}
