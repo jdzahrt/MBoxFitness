@@ -13,7 +13,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./app/assets/MBOX.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

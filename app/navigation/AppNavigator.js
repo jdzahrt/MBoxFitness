@@ -7,6 +7,7 @@ import AccountNavigator from "./AccountNavigator";
 import NewListingButton from "./NewListingButton";
 import routes from "./routes";
 import useNotifications from "../hooks/useNotifications";
+import TokenScreen from "../screens/TokenScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +51,7 @@ const AppNavigator = () => {
                     )
                 }}
             />
+            <Tab.Screen name={'Token'} component={TokenScreen} />
         </Tab.Navigator>
     )
 }

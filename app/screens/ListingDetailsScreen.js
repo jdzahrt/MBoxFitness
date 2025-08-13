@@ -3,7 +3,7 @@ import {View, StyleSheet} from "react-native";
 import AppText from "../components/AppText";
 import ListItem from "../components/lists/ListItem";
 import {Image} from 'react-native-expo-image-cache';
-import ContactSellerForm from "../components/ContactSellerForm";
+import ContactTrainerForm from "../components/ContactTrainerForm";
 
 function ListingDetailsScreen({route}) {
     const listing = route.params;
@@ -16,8 +16,10 @@ function ListingDetailsScreen({route}) {
                 uri={listing.images[0].url}></Image>
             <View style={styles.detailsContainer}>
                 <AppText style={styles.title}>{listing.title}</AppText>
-                <AppText style={styles.price}>{listing.price}</AppText>
+                {/*<AppText style={styles.price}>{listing.price}</AppText>*/}
                 <View style={styles.userContainer}>
+                    <AppText>{listing.id === 1 ? 'Please send what type of training you are looking for and how often. ' +
+                        'I will get back to you within 24 hours.' : 'Goodbye' }</AppText>
                     {/*<ListItem*/}
                     {/*    image={require('../assets/jzpic.jpeg')}*/}
                     {/*    title='Jesse'*/}
@@ -25,7 +27,7 @@ function ListingDetailsScreen({route}) {
                     {/*/>*/}
                 </View>
             </View>
-            <ContactSellerForm listing={listing}/>
+            <ContactTrainerForm listing={listing}/>
         </View>
     );
 }

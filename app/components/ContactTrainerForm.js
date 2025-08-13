@@ -5,7 +5,7 @@ import AppForm from "./forms/AppForm";
 import AppFormField from "./forms/AppFormField";
 import SubmitButton from "./forms/SubmitButton";
 
-function ContactSellerForm({listing}) {
+function ContactTrainerForm({listing}) {
     Notifications.setNotificationHandler({
         handleNotification: () => ({
             shouldShowBanner: true,
@@ -19,37 +19,43 @@ function ContactSellerForm({listing}) {
     const [messages, setMessages] = React.useState([]);
 
     const handleSubmit = async ({message}, {resetForm}) => {
-        const result = await messagesApi.sendMessage(message, listing.id)
+        // const result = await messagesApi.sendMessage(message, listing.id)
 
-        if (!result.ok) {
-            console.log('error')
-        } else {
-            setMessages(result.data)
+        // if (!result.ok) {
+        //     console.log('error')
+        // } else {
+            setMessages(message)
 
             await Notifications.scheduleNotificationAsync({
                 content: {
                     title: 'Message sent',
-                    body: messages,
+                    body: message,
                 },
                 trigger: null,
             });
 
             resetForm()
         }
-    }
+    // }
     return (
         <AppForm
             initialValues={{message: ''}}
             onSubmit={handleSubmit}
         >
             <AppFormField
+                name={'email'}
+                placeholder={'Your email (optional)'}
+                keyboardType={'email-address'}
+                autoCapitalize={'none'}
+            />
+            <AppFormField
                 autoCapitalize={'none'}
                 name={'message'}
                 placeholder={'Message...'}
             />
-            <SubmitButton title={'Contact Seller'}/>
+            <SubmitButton title={'Contact Trainer'}/>
         </AppForm>
     );
 }
 
-export default ContactSellerForm;
+export default ContactTrainerForm;
