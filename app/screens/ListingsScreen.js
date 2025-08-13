@@ -19,7 +19,7 @@ function ListingsScreen({navigation}) {
     const mockListings = [
         {
             id: 1,
-            title: "Personal Training Session",
+            title: "Personal Training",
             price: 75,
             images: [
                 {
@@ -30,34 +30,34 @@ function ListingsScreen({navigation}) {
         },
         {
             id: 2,
-            title: "Yoga Class Package",
+            title: "Mitt Groups / Classes",
             price: 120,
             images: [
                 {
-                    url: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=150"
+                    url: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=150"
                 }
             ]
         },
         {
             id: 3,
-            title: "CrossFit Membership",
-            price: 89,
+            title: "Hikes & Walks",
+            price: 25,
             images: [
                 {
-                    url: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150"
+                    url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=150"
                 }
             ]
         },
         {
             id: 4,
-            title: "Nutrition Consultation",
-            price: 65,
+            title: "Events",
+            price: 45,
             images: [
                 {
-                    url: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150"
+                    url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150"
                 }
             ]
         }

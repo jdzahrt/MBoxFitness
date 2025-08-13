@@ -33,7 +33,7 @@ const categories = [
 ]
 
 function ListEditScreen(props) {
-    const location = useLocation();
+    // const location = useLocation(); // TODO: Causing App Crash
 
     const handleSubmit = async (listing, { resetForm }) => {
         const result = await listingsApi.postListing(
@@ -67,7 +67,7 @@ function ListEditScreen(props) {
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
-                <FormImagePicker name={'images'}/>
+                {/*/!*<FormImagePicker name={'images'}/>*!/ TODO: Causing App Crash*/}
                 <AppFormField
                     autoCapitalize={'none'}
                     autoCorrect={false}
