@@ -83,7 +83,14 @@ function ListingsScreen({navigation}) {
                             title={item.title}
                             subTitle={'$' + item.price}
                             imageUrl={item.images[0].url}
-                            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+                            onPress={() => {
+                                // Navigate to different screens based on listing type
+                                if (item.id === 2) { // Mitt Groups / Classes
+                                    navigation.navigate(routes.CLASS_BOOKING, item);
+                                } else {
+                                    navigation.navigate(routes.LISTING_DETAILS, item);
+                                }
+                            }}
                             thumbnailUrl={item.images[0].thumbnailUrl}
                         />
                     }

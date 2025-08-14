@@ -4,6 +4,7 @@ export default Object.freeze({
     REGISTER: 'Register',
     LISTINGS: 'Listings',
     LISTING_DETAILS: 'ListingDetails',
+    CLASS_BOOKING: 'ClassBooking',
     LISTING_EDIT: 'ListingEdit',
     LOGIN: 'Login',
     MESSAGES: 'Messages',
