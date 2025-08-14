@@ -89,6 +89,8 @@ function ListingsScreen({navigation}) {
                                     navigation.navigate(routes.CLASS_BOOKING, item);
                                 } else if (item.id === 3) { // Events
                                     navigation.navigate(routes.EVENTS, item);
+                                } else if (item.id === 4) { // Hikes & Walks
+                                    navigation.navigate(routes.HIKES, item);
                                 } else {
                                     navigation.navigate(routes.LISTING_DETAILS, item);
                                 }
