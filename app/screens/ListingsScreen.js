@@ -41,23 +41,23 @@ function ListingsScreen({navigation}) {
         },
         {
             id: 3,
-            title: "Hikes & Walks",
-            price: 25,
-            images: [
-                {
-                    url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=150"
-                }
-            ]
-        },
-        {
-            id: 4,
             title: "Events",
             price: 45,
             images: [
                 {
                     url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400",
                     thumbnailUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150"
+                }
+            ]
+        },
+        {
+            id: 4,
+            title: "Hikes & Walks",
+            price: 25,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=150"
                 }
             ]
         }
@@ -87,6 +87,8 @@ function ListingsScreen({navigation}) {
                                 // Navigate to different screens based on listing type
                                 if (item.id === 2) { // Mitt Groups / Classes
                                     navigation.navigate(routes.CLASS_BOOKING, item);
+                                } else if (item.id === 3) { // Events
+                                    navigation.navigate(routes.EVENTS, item);
                                 } else {
                                     navigation.navigate(routes.LISTING_DETAILS, item);
                                 }

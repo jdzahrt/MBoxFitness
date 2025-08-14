@@ -50,11 +50,13 @@ function ContactTrainerForm({listing}) {
                     keyboardType={'email-address'}
                     autoCapitalize={'none'}
                 />
-                <AppFormField
-                    autoCapitalize={'none'}
-                    name={'message'}
-                    placeholder={'Message...'}
-                />
+                <View style={styles.messageFieldContainer}>
+                    <AppFormField
+                        autoCapitalize={'none'}
+                        name={'message'}
+                        placeholder={'Message...'}
+                    />
+                </View>
                 <View style={styles.buttonsContainer}>
                     <SubmitButton title={'Contact Trainer'}/>
                 </View>
@@ -66,7 +68,10 @@ function ContactTrainerForm({listing}) {
 const styles = StyleSheet.create({
     formContainer: {
         paddingHorizontal: 20,
-        paddingBottom: 100,
+        paddingBottom: 200,
+    },
+    messageFieldContainer: {
+        marginBottom: 10,
     },
     buttonsContainer: {
         alignItems: 'center',
