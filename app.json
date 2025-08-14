@@ -23,12 +23,31 @@
       "bundleIdentifier": "com.jesse.zahrt.MBoxFitness",
       "buildNumber": "1",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to allow you to select and upload images for your fitness listings.",
+        "NSCameraUsageDescription": "This app needs access to your camera to take photos for your fitness listings."
       }
     },
+    "notification": {
+      "icon": "./app/assets/MBOX.jpeg",
+      "color": "#000000"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./app/assets/MBOX.jpeg",
+          "color": "#ffffff"
+        }
+      ]
+    ],
     "android": {
       "jsEngine": "hermes",
-      "package": "com.jesse.zahrt.MBoxFitness"
+      "package": "com.jesse.zahrt.MBoxFitness",
+      "permissions": [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

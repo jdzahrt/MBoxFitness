@@ -4,13 +4,14 @@ import * as Notifications from "expo-notifications";
 import AppForm from "./forms/AppForm";
 import AppFormField from "./forms/AppFormField";
 import SubmitButton from "./forms/SubmitButton";
+import {StyleSheet, View} from "react-native";
 
 function ContactTrainerForm({listing}) {
     Notifications.setNotificationHandler({
         handleNotification: () => ({
             shouldShowBanner: true,
             shouldShowList: true,
-            shouldShowAlert: true,
+            // shouldShowAlert: true,
             shouldPlaySound: false,
             shouldSetBadge: false,
         }),
@@ -38,24 +39,39 @@ function ContactTrainerForm({listing}) {
         }
     // }
     return (
-        <AppForm
-            initialValues={{message: ''}}
-            onSubmit={handleSubmit}
-        >
-            <AppFormField
-                name={'email'}
-                placeholder={'Your email (optional)'}
-                keyboardType={'email-address'}
-                autoCapitalize={'none'}
-            />
-            <AppFormField
-                autoCapitalize={'none'}
-                name={'message'}
-                placeholder={'Message...'}
-            />
-            <SubmitButton title={'Contact Trainer'}/>
-        </AppForm>
+        <View style={styles.formContainer}>
+            <AppForm
+                initialValues={{message: ''}}
+                onSubmit={handleSubmit}
+            >
+                <AppFormField
+                    name={'email'}
+                    placeholder={'Your email (optional)'}
+                    keyboardType={'email-address'}
+                    autoCapitalize={'none'}
+                />
+                <AppFormField
+                    autoCapitalize={'none'}
+                    name={'message'}
+                    placeholder={'Message...'}
+                />
+                <View style={styles.buttonsContainer}>
+                    <SubmitButton title={'Contact Trainer'}/>
+                </View>
+            </AppForm>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    formContainer: {
+        paddingHorizontal: 20,
+        paddingBottom: 100,
+    },
+    buttonsContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+    },
+})
 
 export default ContactTrainerForm;
