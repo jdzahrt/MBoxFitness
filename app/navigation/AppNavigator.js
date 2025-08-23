@@ -7,11 +7,12 @@ import AccountNavigator from "./AccountNavigator";
 import NewListingButton from "./NewListingButton";
 import routes from "./routes";
 import useNotifications from "../hooks/useNotifications";
+import TokenScreen from "../screens/TokenScreen";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-    useNotifications();
+    // useNotifications();
 
     return (
         <Tab.Navigator
@@ -30,17 +31,17 @@ const AppNavigator = () => {
                     )
                 }}
             />
-            <Tab.Screen
-                name={'ListingEdit'}
-                component={ListEditScreen}
-                options={({navigation}) => ({
-                    tabBarButton: () => <NewListingButton onPress={() => navigation.navigate(routes.LISTING_EDIT)}/>,
-                    tabBarIcon: ({color, size}) => (
-                        <MaterialCommunityIcons name={'plus-circle'} color={color} size={40}/>
-                    ),
-                    tabBarLabel: () => null
-                })}
-            />
+            {/*<Tab.Screen*/}
+            {/*    name={'ListingEdit'}*/}
+            {/*    component={ListEditScreen}*/}
+            {/*    options={({navigation}) => ({*/}
+            {/*        tabBarButton: () => <NewListingButton onPress={() => navigation.navigate(routes.LISTING_EDIT)}/>,*/}
+            {/*        tabBarIcon: ({color, size}) => (*/}
+            {/*            <MaterialCommunityIcons name={'plus-circle'} color={color} size={40}/>*/}
+            {/*        ),*/}
+            {/*        tabBarLabel: () => null*/}
+            {/*    })}*/}
+            {/*/>*/}
             <Tab.Screen
                 name={'Account'}
                 component={AccountNavigator}
@@ -50,6 +51,7 @@ const AppNavigator = () => {
                     )
                 }}
             />
+            <Tab.Screen name={'Token'} component={TokenScreen} />
         </Tab.Navigator>
     )
 }

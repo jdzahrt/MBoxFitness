@@ -10,22 +10,70 @@ import listingsAPI from "../api/listings";
 
 
 function ListingsScreen({navigation}) {
-    const getListingsApi = useApi(listingsAPI.getListings)
+    // const getListingsApi = useApi(listingsAPI.getListings)
+    //
+    //
+    // useEffect(() => {
+    //     getListingsApi.request();
+    // }, []);
+    const mockListings = [
+        {
+            id: 1,
+            title: "Personal Training",
+            price: 75,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150"
+                }
+            ]
+        },
+        {
+            id: 2,
+            title: "Mitt Groups / Classes",
+            price: 120,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=150"
+                }
+            ]
+        },
+        {
+            id: 3,
+            title: "Events",
+            price: 45,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150"
+                }
+            ]
+        },
+        {
+            id: 4,
+            title: "Hikes & Walks",
+            price: 25,
+            images: [
+                {
+                    url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=400",
+                    thumbnailUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=150"
+                }
+            ]
+        }
+    ];
 
-
-    useEffect(() => {
-        getListingsApi.request();
-    }, []);
+    const getListingsApi = { data: mockListings, error: null };
 
     return (
         <>
             <Screen style={styles.screen}>
-                {getListingsApi.error && (
-                    <>
-                        <Text>Could not retrieve the listings.</Text>
-                        <AppButton title="Retry" onPress={getListingsApi.request}/>
-                    </>
-                )}
+                {/*{getListingsApi.error && (*/}
+                {/*    <>*/}
+                {/*        <Text>Could not retrieve the listings.</Text>*/}
+                {/*        <AppButton title="Retry" onPress={getListingsApi.request}/>*/}
+                {/*    </>*/}
+                {/*)}*/}
 
                 <FlatList
                     data={getListingsApi.data}
@@ -35,7 +83,18 @@ function ListingsScreen({navigation}) {
                             title={item.title}
                             subTitle={'$' + item.price}
                             imageUrl={item.images[0].url}
-                            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+                            onPress={() => {
+                                // Navigate to different screens based on listing type
+                                if (item.id === 2) { // Mitt Groups / Classes
+                                    navigation.navigate(routes.CLASS_BOOKING, item);
+                                } else if (item.id === 3) { // Events
+                                    navigation.navigate(routes.EVENTS, item);
+                                } else if (item.id === 4) { // Hikes & Walks
+                                    navigation.navigate(routes.HIKES, item);
+                                } else {
+                                    navigation.navigate(routes.LISTING_DETAILS, item);
+                                }
+                            }}
                             thumbnailUrl={item.images[0].thumbnailUrl}
                         />
                     }

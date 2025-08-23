@@ -14,7 +14,7 @@ function Card({title, subTitle, imageUrl, onPress, thumbnailUrl}) {
                        tint={"light"}/>
                 <View style={styles.detailsContainer}>
                     <AppText>{title}</AppText>
-                    <AppText style={styles.subTitle}>{subTitle}</AppText>
+                    {/*<AppText style={styles.subTitle}>{subTitle}</AppText>*/}
                 </View>
             </View>
         </TouchableWithoutFeedback>

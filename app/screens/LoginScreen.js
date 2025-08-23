@@ -21,17 +21,18 @@ function LoginScreen(props) {
 
     const handleSubmit = async ({email, password}) => {
         console.log('Login Submit Pressed')
-        const result = await authAPI.login(email, password)
-        console.log('result', result)
-        if (!result.ok) {
-            setLoginFailed(true)
-            setErrorMessage("Invalid email and/or password.")
-            return;
-        }
+        // const result = await authAPI.login(email, password)
+        // console.log('result', result)
+        // if (!result.ok) {
+        //     setLoginFailed(true)
+        //     setErrorMessage("Invalid email and/or password.")
+        //     return;
+        // }
 
         setLoginFailed(false)
         setErrorMessage("")
-        logIn(result.data)
+        const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+        logIn(mockToken)
     }
 
     return (
