@@ -1,57 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, StyleSheet, ScrollView, FlatList } from "react-native";
 import AppText from "../components/AppText";
 import { Image } from 'react-native-expo-image-cache';
 import colors from "../config/colors";
+import eventsApi from "../api/events";
+import useApi from "../hooks/useApi";
 
 function EventsScreen({ route }) {
     const listing = route.params;
+    const getEventsApi = useApi(eventsApi.getEvents);
 
-    // Mock events data
-    const upcomingEvents = [
-        {
-            id: 1,
-            name: "Boxing Bootcamp Challenge",
-            location: "Main Gym Floor",
-            date: "Jan 20, 2024",
-            time: "10:00 AM"
-        },
-        {
-            id: 2,
-            name: "Fitness Competition",
-            location: "Outdoor Arena",
-            date: "Jan 25, 2024",
-            time: "2:00 PM"
-        },
-        {
-            id: 3,
-            name: "Nutrition Workshop",
-            location: "Conference Room A",
-            date: "Feb 1, 2024",
-            time: "6:00 PM"
-        },
-        {
-            id: 4,
-            name: "Team Building Workout",
-            location: "Main Gym Floor",
-            date: "Feb 8, 2024",
-            time: "9:00 AM"
-        },
-        {
-            id: 5,
-            name: "Charity Fitness Run",
-            location: "Central Park",
-            date: "Feb 15, 2024",
-            time: "8:00 AM"
-        },
-        {
-            id: 6,
-            name: "Advanced Boxing Seminar",
-            location: "Training Room B",
-            date: "Feb 22, 2024",
-            time: "11:00 AM"
-        }
-    ];
+    useEffect(() => {
+        getEventsApi.request();
+    }, []);
+
+    // useEffect(() => {
+    //     console.log('Events API data:', getEventsApi.data);
+    //     console.log('Events API data keys:', getEventsApi.data ? Object.keys(getEventsApi.data) : 'no data');
+    //     console.log('upcomingEvents:', getEventsApi.data?.upcomingEvents);
+    //     console.log('Events API loading:', getEventsApi.loading);
+    //     console.log('Events API error:', getEventsApi.error);
+    // }, [getEventsApi.data, getEventsApi.loading, getEventsApi.error]);
 
     const renderEventRow = ({ item }) => (
         <View style={styles.eventRow}>
@@ -87,8 +56,8 @@ function EventsScreen({ route }) {
                 </View>
 
                 <FlatList
-                    data={upcomingEvents}
-                    keyExtractor={(item) => item.id.toString()}
+                    data={getEventsApi.data || []}
+                    keyExtractor={(item, index) => item.id?.toString() || index.toString()}
                     renderItem={renderEventRow}
                     scrollEnabled={false}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
