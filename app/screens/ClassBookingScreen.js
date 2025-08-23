@@ -3,6 +3,8 @@ import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Touchable
 import AppText from "../components/AppText";
 import { Image } from 'react-native-expo-image-cache';
 import colors from "../config/colors";
+import bookingApi from "../api/booking";
+import useApi from "../hooks/useApi";
 
 function ClassBookingScreen({ route }) {
     const listing = route.params;
@@ -20,12 +22,28 @@ function ClassBookingScreen({ route }) {
 
     const availableDates = Object.keys(classSchedule);
 
-    const handleBookClass = () => {
+    const createBookingApi = useApi(bookingApi.createBooking);
+
+    const handleBookClass = async () => {
         if (!selectedDate || !selectedTime) {
             Alert.alert('Please select both date and time');
             return;
         }
-        Alert.alert('Class Booked!', `${listing.title} on ${selectedDate} at ${selectedTime}`);
+        
+        const bookingData = {
+            classId: listing.id,
+            date: selectedDate,
+            time: selectedTime,
+            price: listing.price
+        };
+        
+        const result = await createBookingApi.request(bookingData);
+        
+        if (result.ok) {
+            Alert.alert('Success!', `${listing.title} booked for ${selectedDate} at ${selectedTime}`);
+        } else {
+            Alert.alert('Error', 'Failed to book class. Please try again.');
+        }
     };
 
     return (

@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ImageBackground, StyleSheet, View, Image, Text} from "react-native";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
+import testAuth from "../auth/testAuth";
+import AuthContext from "../auth/context";
 
 function WelcomeScreen({navigation}) {
+    const {setUser} = useContext(AuthContext);
+
+    const handleTestLogin = async () => {
+        const user = await testAuth.loginAsTestUser(1);
+        if (user) {
+            setUser(user);
+        }
+    };
+
     return (
         <ImageBackground
             style={styles.background}
@@ -17,6 +28,9 @@ function WelcomeScreen({navigation}) {
             <View style={styles.buttonsContainer}>
                 <AppButton title='login' color={colors.primary} onPress={() => navigation.navigate(routes.LOGIN)}>login</AppButton>
                 <AppButton title='register' color={colors.primary} onPress={()=> navigation.navigate(routes.REGISTER)}>register</AppButton>
+                {__DEV__ && (
+                    <AppButton title='Test Login' color={colors.secondary} onPress={handleTestLogin}>Test Login</AppButton>
+                )}
             </View>
         </ImageBackground>
     );
