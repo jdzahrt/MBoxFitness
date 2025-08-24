@@ -91,15 +91,15 @@ const styles = StyleSheet.create({
         color: colors.medium,
     },
     tableHeader: {
-        backgroundColor: colors.primary,
-        padding: 15,
-        borderRadius: 8,
-        marginBottom: 10,
+        borderBottomWidth: 2,
+        borderBottomColor: colors.primary,
+        paddingBottom: 10,
+        marginBottom: 15,
     },
     headerText: {
-        color: colors.white,
-        fontSize: 18,
-        fontWeight: '600',
+        color: colors.primary,
+        fontSize: 20,
+        fontWeight: '700',
         textAlign: 'center',
     },
     eventRow: {

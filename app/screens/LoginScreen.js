@@ -11,28 +11,22 @@ import colors from "../config/colors";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label('Email'),
-    password: Yup.string().required().min(4).label('Password')
+    password: Yup.string().required().min(6).label('Password')
 })
 
 function LoginScreen(props) {
     const {logIn} = useAuth()
-    const [loginFailed, setLoginFailed] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
+    const [error, setError] = useState(null)
 
     const handleSubmit = async ({email, password}) => {
-        console.log('Login Submit Pressed')
-        // const result = await authAPI.login(email, password)
-        // console.log('result', result)
-        // if (!result.ok) {
-        //     setLoginFailed(true)
-        //     setErrorMessage("Invalid email and/or password.")
-        //     return;
-        // }
+        const result = await authAPI.login(email, password)
+        if (!result.ok) {
+            setError(result.data?.message || "Invalid email and/or password.")
+            return
+        }
 
-        setLoginFailed(false)
-        setErrorMessage("")
-        const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-        logIn(mockToken)
+        setError(null)
+        logIn(result.data.token, result.data.user)
     }
 
     return (
@@ -47,7 +41,7 @@ function LoginScreen(props) {
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
-                <ErrorMessage error={errorMessage} visble={loginFailed}/>
+                <ErrorMessage error={error} visible={error}/>
                 <AppFormField
                     autoCapitalize={'none'}
                     autoCorrect={false}
@@ -65,6 +59,8 @@ function LoginScreen(props) {
                     placeholder={'Password'}
                     secureTextEntry
                     textContentType={'password'}
+                    returnKeyType={'go'}
+                    onSubmitEditing={() => handleSubmit}
                 />
                 <SubmitButton title='Login'/>
             </AppForm>

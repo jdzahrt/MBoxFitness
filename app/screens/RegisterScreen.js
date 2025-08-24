@@ -22,31 +22,39 @@ function RegisterScreen(props) {
     const loginApi = useApi(authAPI.login)
     const {logIn} = useAuth()
     const [error, setError] = React.useState(null)
+    const [success, setSuccess] = React.useState(null)
 
     const handleSubmit = async (user) => {
         const result = await registerApi.request(user)
+
+        // if (result.data.message)
+        console.log('msg',result.data)
+
         if (!result.ok) {
-            setError(result.data.error)
-            console.log(result)
+            setError(result.data.message || 'Registration failed')
             return
         }
 
-        const {data: authToken} = await loginApi.request(
-            user.email,
-            user.password
-        )
-        logIn(authToken)
+        setError(null)
+        setSuccess('Registration successful! Logging you in...')
+        
+        setTimeout(async () => {
+            const loginResult = await loginApi.request(
+                user.email,
+                user.password
+            )
+            logIn(loginResult.data.token)
+        }, 1500)
     }
 
     return (
-        <>
-            <ErrorMessage error={error}/>
-            <Screen style={styles.container}>
-
-                <Image
-                    style={styles.logo}
-                    source={require('../assets/MBoxIcon.jpeg')}
-                />
+        <Screen style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require('../assets/MBoxIcon.jpeg')}
+            />
+            <ErrorMessage error={error} visible={error}/>
+            <ErrorMessage error={success} visible={success} style={{backgroundColor: 'green'}}/>
                 <AppForm
                     initialValues={{email: '', password: '', user: ''}}
                     onSubmit={handleSubmit}
@@ -82,8 +90,7 @@ function RegisterScreen(props) {
                     />
                     <SubmitButton title='Register'/>
                 </AppForm>
-            </Screen>
-        </>
+        </Screen>
     );
 }
 

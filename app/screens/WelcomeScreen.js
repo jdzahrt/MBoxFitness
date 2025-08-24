@@ -9,8 +9,8 @@ import AuthContext from "../auth/context";
 function WelcomeScreen({navigation}) {
     const {setUser} = useContext(AuthContext);
 
-    const handleTestLogin = async () => {
-        const user = await testAuth.loginAsTestUser(1);
+    const handleTestLogin = async (userId) => {
+        const user = await testAuth.loginAsTestUser(userId);
         if (user) {
             setUser(user);
         }
@@ -29,7 +29,11 @@ function WelcomeScreen({navigation}) {
                 <AppButton title='login' color={colors.primary} onPress={() => navigation.navigate(routes.LOGIN)}>login</AppButton>
                 <AppButton title='register' color={colors.primary} onPress={()=> navigation.navigate(routes.REGISTER)}>register</AppButton>
                 {__DEV__ && (
-                    <AppButton title='Test Login' color={colors.secondary} onPress={handleTestLogin}>Test Login</AppButton>
+                    <View style={styles.testButtons}>
+                        <AppButton title='User' color={colors.medium} onPress={() => handleTestLogin(1)}>User</AppButton>
+                        <AppButton title='Trainer' color={colors.secondary} onPress={() => handleTestLogin(2)}>Trainer</AppButton>
+                        <AppButton title='Admin' color={colors.danger} onPress={() => handleTestLogin(3)}>Admin</AppButton>
+                    </View>
                 )}
             </View>
         </ImageBackground>
@@ -62,6 +66,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.black,
         paddingVertical: 20
+    },
+    testButtons: {
+        flexDirection: 'row',
+        marginTop: 10,
+        gap: 10
     }
 });
 
