@@ -38,13 +38,17 @@ function RegisterScreen(props) {
         setError(null)
         setSuccess('Registration successful! Logging you in...')
         
-        setTimeout(async () => {
-            const loginResult = await loginApi.request(
-                user.email,
-                user.password
-            )
+        // Auto-login after successful registration
+        const loginResult = await loginApi.request(
+            user.email,
+            user.password
+        )
+        
+        if (loginResult.ok) {
             logIn(loginResult.data.token)
-        }, 1500)
+        } else {
+            setError('Registration successful but login failed. Please try logging in manually.')
+        }
     }
 
     return (
