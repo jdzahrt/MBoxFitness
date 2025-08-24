@@ -1,4 +1,5 @@
 import {NavigationContainer} from "@react-navigation/native";
+import { StripeProvider } from '@stripe/stripe-react-native';
 import navigationTheme from "./app/navigation/NavigationTheme";
 import OfflineNotice from "./app/components/OfflineNotice";
 import AuthNavigator from "./app/navigation/AuthNavigator";
@@ -52,11 +53,13 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={{user, setUser}}>
-      <OfflineNotice/>
-      <NavigationContainer theme={navigationTheme}>
-        {user ? <AppNavigator/> : <AuthNavigator/>}
-      </NavigationContainer>
-    </AuthContext.Provider>
+    <StripeProvider publishableKey="pk_test_51RzdX8L0DCM97CtopPGrtcQb0XsuBjFAEFDY5hkvsOuen0OldIHDxMIsFIwyk9HRVaL2X3mc8vjSQs2X5ZFTu9Sb00YU5JlSj6">
+      <AuthContext.Provider value={{user, setUser}}>
+        <OfflineNotice/>
+        <NavigationContainer theme={navigationTheme}>
+          {user ? <AppNavigator/> : <AuthNavigator/>}
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </StripeProvider>
   )
 };
