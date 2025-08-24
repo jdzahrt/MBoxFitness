@@ -83,7 +83,7 @@ function ClassBookingScreen({ route, navigation }) {
                 Alert.alert(
                     'Success!', 
                     `${listing.title} booked for ${selectedDate} at ${selectedTime}`,
-                    [{ text: 'OK', onPress: () => navigation.navigate(routes.FEED) }]
+                    [{ text: 'OK', onPress: () => navigation.navigate(routes.LISTINGS) }]
                 );
             } else {
                 Alert.alert('Error', 'Payment successful but booking failed. Please contact support.');
