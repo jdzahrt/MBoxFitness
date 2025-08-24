@@ -31,7 +31,7 @@ function ListingsScreen({navigation}) {
         {
             id: 2,
             title: "Mitt Groups / Classes",
-            price: 120,
+            price: 20,
             images: [
                 {
                     url: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400",

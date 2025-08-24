@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { useStripe } from '@stripe/stripe-react-native';
 import AppText from "../components/AppText";
 import { Image } from 'react-native-expo-image-cache';
 import colors from "../config/colors";
 import bookingApi from "../api/booking";
+import paymentsApi from "../api/payments";
 import useApi from "../hooks/useApi";
+import routes from "../navigation/routes";
 
-function ClassBookingScreen({ route }) {
+function ClassBookingScreen({ route, navigation }) {
     const listing = route.params;
+    const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     // Mock class schedule data
     const classSchedule = {
@@ -24,6 +29,7 @@ function ClassBookingScreen({ route }) {
     const availableDates = Object.keys(classSchedule);
 
     const createBookingApi = useApi(bookingApi.createBooking);
+    const createPaymentIntentApi = useApi(paymentsApi.createPaymentIntent);
 
     const handleBookClass = async () => {
         if (!selectedDate || !selectedTime) {
@@ -31,20 +37,61 @@ function ClassBookingScreen({ route }) {
             return;
         }
         
-        const bookingData = {
-            classId: listing.id,
-            className: listing.title,
-            date: selectedDate,
-            time: selectedTime,
-            price: listing.price
-        };
+        setLoading(true);
         
-        const result = await createBookingApi.request(bookingData);
-        
-        if (result.ok) {
-            Alert.alert('Success!', `${listing.title} booked for ${selectedDate} at ${selectedTime}`);
-        } else {
-            Alert.alert('Error', 'Failed to book class. Please try again.');
+        try {
+            // Create payment intent
+            const paymentResult = await createPaymentIntentApi.request(listing.price);
+            
+            if (!paymentResult.ok) {
+                Alert.alert('Error', 'Failed to initialize payment');
+                return;
+            }
+            
+            // Initialize payment sheet
+            const { error } = await initPaymentSheet({
+                merchantDisplayName: 'MBox Fitness',
+                paymentIntentClientSecret: paymentResult.data.clientSecret,
+            });
+            
+            if (error) {
+                Alert.alert('Error', error.message);
+                return;
+            }
+            
+            // Present payment sheet
+            const { error: paymentError } = await presentPaymentSheet();
+            
+            if (paymentError) {
+                Alert.alert('Payment cancelled', paymentError.message);
+                return;
+            }
+            
+            // Create booking after successful payment
+            const bookingData = {
+                classId: listing.id,
+                className: listing.title,
+                date: selectedDate,
+                time: selectedTime,
+                price: listing.price,
+                paymentIntentId: paymentResult.data.id
+            };
+            
+            const result = await createBookingApi.request(bookingData);
+            
+            if (result.ok) {
+                Alert.alert(
+                    'Success!', 
+                    `${listing.title} booked for ${selectedDate} at ${selectedTime}`,
+                    [{ text: 'OK', onPress: () => navigation.navigate(routes.FEED) }]
+                );
+            } else {
+                Alert.alert('Error', 'Payment successful but booking failed. Please contact support.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -126,12 +173,14 @@ function ClassBookingScreen({ route }) {
                     <TouchableOpacity 
                         style={[
                             styles.bookButton,
-                            (!selectedDate || !selectedTime) && styles.disabledButton
+                            (!selectedDate || !selectedTime || loading) && styles.disabledButton
                         ]}
                         onPress={handleBookClass}
-                        disabled={!selectedDate || !selectedTime}
+                        disabled={!selectedDate || !selectedTime || loading}
                     >
-                        <AppText style={styles.bookButtonText}>Book Class</AppText>
+                        <AppText style={styles.bookButtonText}>
+                            {loading ? 'Processing...' : 'Book & Pay'}
+                        </AppText>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -211,7 +260,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     selectedTimeButton: {
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.primary,
     },
     timeText: {
         fontSize: 14,
