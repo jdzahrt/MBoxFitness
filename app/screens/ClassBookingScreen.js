@@ -8,6 +8,7 @@ import useApi from "../hooks/useApi";
 
 function ClassBookingScreen({ route }) {
     const listing = route.params;
+
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
 
@@ -32,6 +33,7 @@ function ClassBookingScreen({ route }) {
         
         const bookingData = {
             classId: listing.id,
+            className: listing.title,
             date: selectedDate,
             time: selectedTime,
             price: listing.price

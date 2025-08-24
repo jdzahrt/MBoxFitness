@@ -11,12 +11,12 @@ import useAuth from "../auth/useAuth";
 
 const menuItems = [
     {
-        title: 'My Listings',
+        title: 'My Classes',
         icon: {
-            name: 'format-list-bulleted',
+            name: 'dumbbell',
             backgroundColor: colors.primary
         },
-        targetScreen: routes.LISTINGS
+        targetScreen: routes.MY_CLASSES
     },
     {
         title: 'My Messages',
@@ -37,7 +37,7 @@ function MyAccountScreen({navigation}) {
                 <ListItem
                     title={user.name}
                     subTitle={user.email}
-                    image={require('../assets/jzpic.jpeg')}
+                    // image={require('../assets/jzpic.jpeg')}
                 />
             </View>
             <View style={styles.container}>
