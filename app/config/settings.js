@@ -8,7 +8,7 @@ const settings = {
         apiUrl: 'http://localhost:3000/api'
     },
     prod: {
-        apiUrl: 'http://localhost:3000/api'
+        apiUrl: 'https://mboxfitness-backend.vercel.app/api'
     }
 }
 
