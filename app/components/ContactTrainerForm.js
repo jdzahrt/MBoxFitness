@@ -4,9 +4,12 @@ import * as Notifications from "expo-notifications";
 import AppForm from "./forms/AppForm";
 import AppFormField from "./forms/AppFormField";
 import SubmitButton from "./forms/SubmitButton";
+import useAuth from "../auth/useAuth";
 import {StyleSheet, View} from "react-native";
 
 function ContactTrainerForm({listing}) {
+    const { user } = useAuth();
+    
     Notifications.setNotificationHandler({
         handleNotification: () => ({
             shouldShowBanner: true,
@@ -20,16 +23,16 @@ function ContactTrainerForm({listing}) {
     const [messages, setMessages] = React.useState([]);
 
     const handleSubmit = async ({message}, {resetForm}) => {
-        // const result = await messagesApi.sendMessage(message, listing.id)
+        const result = await messagesApi.sendMessage(message, listing.id, user?.email)
 
-        // if (!result.ok) {
-        //     console.log('error')
-        // } else {
-            setMessages(message)
+        if (!result.ok) {
+            console.log('Error sending message:', result.problem)
+        } else {
+            setMessages([...messages, {message, email: user?.email, listingId: listing.id}])
 
             await Notifications.scheduleNotificationAsync({
                 content: {
-                    title: 'Message sent',
+                    title: 'Message sent to trainer',
                     body: message,
                 },
                 trigger: null,
@@ -37,19 +40,14 @@ function ContactTrainerForm({listing}) {
 
             resetForm()
         }
-    // }
+    }
     return (
         <View style={styles.formContainer}>
             <AppForm
                 initialValues={{message: ''}}
                 onSubmit={handleSubmit}
             >
-                <AppFormField
-                    name={'email'}
-                    placeholder={'Your email (optional)'}
-                    keyboardType={'email-address'}
-                    autoCapitalize={'none'}
-                />
+
                 <View style={styles.messageFieldContainer}>
                     <AppFormField
                         autoCapitalize={'none'}

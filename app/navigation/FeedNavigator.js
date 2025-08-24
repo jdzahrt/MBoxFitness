@@ -1,10 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from "@react-navigation/stack";
 import ListingsScreen from "../screens/ListingsScreen";
-import ListingDetailsScreen from "../screens/ListingDetailsScreen";
+import PersonalTrainingScreen from "../screens/PersonalTrainingScreen";
 import ClassBookingScreen from "../screens/ClassBookingScreen";
 import EventsScreen from "../screens/EventsScreen";
 import HikesScreen from "../screens/HikesScreen";
+import MyClassesScreen from "../screens/MyClassesScreen";
 import routes from "./routes";
 
 const Stack = createStackNavigator();
@@ -16,8 +17,8 @@ const FeedNavigator = () => (
             component={ListingsScreen}
         />
         <Stack.Screen
-            name={routes.LISTING_DETAILS}
-            component={ListingDetailsScreen}
+            name={routes.PERSONAL_TRAINING}
+            component={PersonalTrainingScreen}
         />
         <Stack.Screen
             name={routes.CLASS_BOOKING}
@@ -30,6 +31,10 @@ const FeedNavigator = () => (
         <Stack.Screen
             name={routes.HIKES}
             component={HikesScreen}
+        />
+        <Stack.Screen
+            name={routes.MY_CLASSES}
+            component={MyClassesScreen}
         />
     </Stack.Navigator>
 )

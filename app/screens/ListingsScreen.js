@@ -63,7 +63,7 @@ function ListingsScreen({navigation}) {
         }
     ];
 
-    const getListingsApi = { data: mockListings, error: null };
+    const getListingsApi = {data: mockListings, error: null};
 
     return (
         <>
@@ -85,14 +85,17 @@ function ListingsScreen({navigation}) {
                             imageUrl={item.images[0].url}
                             onPress={() => {
                                 // Navigate to different screens based on listing type
-                                if (item.id === 2) { // Mitt Groups / Classes
+                                if (item.id === 1) { // Personal Training
+                                    navigation.navigate(routes.PERSONAL_TRAINING, item);
+                                } else if (item.id === 2) { // Mitt Groups / Classes
                                     navigation.navigate(routes.CLASS_BOOKING, item);
                                 } else if (item.id === 3) { // Events
                                     navigation.navigate(routes.EVENTS, item);
                                 } else if (item.id === 4) { // Hikes & Walks
                                     navigation.navigate(routes.HIKES, item);
                                 } else {
-                                    navigation.navigate(routes.LISTING_DETAILS, item);
+                                    // Handle other listing types or show an error message
+                                    console.error('Unknown listing type:', item.id);
                                 }
                             }}
                             thumbnailUrl={item.images[0].thumbnailUrl}

@@ -1,11 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView} from "react-native";
 import AppText from "../components/AppText";
-import ListItem from "../components/lists/ListItem";
 import {Image} from 'react-native-expo-image-cache';
 import ContactTrainerForm from "../components/ContactTrainerForm";
 
-function ListingDetailsScreen({route}) {
+function PersonalTrainingScreen({route}) {
     const listing = route.params;
     return (
         <KeyboardAvoidingView 
@@ -64,4 +63,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ListingDetailsScreen;
+export default PersonalTrainingScreen;

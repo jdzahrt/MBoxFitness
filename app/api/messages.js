@@ -2,10 +2,11 @@ import apiClient from "./client";
 
 const endpoint = "/messages";
 
-const sendMessage = (message, listingId) => {
+const sendMessage = (message, listingId, email = null) => {
     const messageRequestData = {
         message,
-        listingId
+        listingId,
+        email
     }
 
     return apiClient.post("/messages", messageRequestData);
