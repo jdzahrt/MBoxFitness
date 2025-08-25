@@ -10,6 +10,7 @@ import authStorage from "./app/auth/storage";
 import * as SplashScreen from "expo-splash-screen";
 import {View} from "react-native";
 import * as Sentry from '@sentry/react-native';
+import PushNotificationHandler from "./app/components/PushNotificationHandler";
 
 Sentry.init({
   dsn: 'https://9ce9fc4d7a65bac758bcabb77138dd4f@o4509271345987584.ingest.us.sentry.io/4509271358504960',
@@ -58,6 +59,7 @@ function App() {
   return (
     <StripeProvider publishableKey="pk_test_51RzdX8L0DCM97CtopPGrtcQb0XsuBjFAEFDY5hkvsOuen0OldIHDxMIsFIwyk9HRVaL2X3mc8vjSQs2X5ZFTu9Sb00YU5JlSj6">
       <AuthContext.Provider value={{user, setUser}}>
+        <PushNotificationHandler />
         <OfflineNotice/>
         <NavigationContainer theme={navigationTheme}>
           {user ? <AppNavigator/> : <AuthNavigator/>}

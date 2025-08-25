@@ -7,44 +7,44 @@ import colors from "../config/colors";
 function HikesScreen({ route }) {
     const listing = route.params;
 
-    // Mock hikes data
+    // Iowa and Midwest hikes data
     const upcomingHikes = [
         {
             id: 1,
-            name: "Morning Nature Walk",
-            location: "Central Park Trail",
+            name: "Prairie Morning Walk",
+            location: "Neal Smith Trail, Altoona",
             date: "Jan 18, 2024",
             time: "7:00 AM",
             difficulty: "Easy"
         },
         {
             id: 2,
-            name: "Sunset Hill Hike",
-            location: "Griffith Observatory Trail",
+            name: "Loess Hills Hike",
+            location: "Preparation Canyon State Park",
             date: "Jan 21, 2024",
-            time: "5:30 PM",
+            time: "9:00 AM",
             difficulty: "Moderate"
         },
         {
             id: 3,
-            name: "Weekend Mountain Trek",
-            location: "Blue Ridge Mountains",
+            name: "Effigy Mounds Trek",
+            location: "Effigy Mounds National Monument",
             date: "Jan 27, 2024",
             time: "8:00 AM",
             difficulty: "Hard"
         },
         {
             id: 4,
-            name: "Beach Walk & Yoga",
-            location: "Santa Monica Beach",
+            name: "Lake Walk & Meditation",
+            location: "Saylorville Lake Trail",
             date: "Feb 3, 2024",
             time: "6:30 AM",
             difficulty: "Easy"
         },
         {
             id: 5,
-            name: "Forest Trail Adventure",
-            location: "Redwood National Park",
+            name: "Raccoon River Valley",
+            location: "Raccoon River Valley Trail",
             date: "Feb 10, 2024",
             time: "9:00 AM",
             difficulty: "Moderate"
@@ -90,8 +90,8 @@ function HikesScreen({ route }) {
             <View style={styles.detailsContainer}>
                 <AppText style={styles.title}>{listing.title}</AppText>
                 <AppText style={styles.description}>
-                    Join our outdoor fitness community for scenic hikes and nature walks. 
-                    All fitness levels welcome - from easy morning walks to challenging mountain treks.
+                    Explore Iowa's beautiful prairies, river valleys, and rolling hills with our hiking group. 
+                    All fitness levels welcome!
                 </AppText>
 
                 <View style={styles.tableHeader}>
@@ -134,15 +134,15 @@ const styles = StyleSheet.create({
         color: colors.medium,
     },
     tableHeader: {
-        backgroundColor: colors.primary,
-        padding: 15,
-        borderRadius: 8,
-        marginBottom: 10,
+        borderBottomWidth: 2,
+        borderBottomColor: colors.primary,
+        paddingBottom: 10,
+        marginBottom: 15,
     },
     headerText: {
-        color: colors.white,
-        fontSize: 18,
-        fontWeight: '600',
+        color: colors.primary,
+        fontSize: 20,
+        fontWeight: '700',
         textAlign: 'center',
     },
     hikeRow: {

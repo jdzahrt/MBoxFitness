@@ -22,13 +22,15 @@ function PersonalTrainingScreen({route}) {
                     <AppText style={styles.title}>{listing.title}</AppText>
                     {/*<AppText style={styles.price}>{listing.price}</AppText>*/}
                     <View style={styles.userContainer}>
-                        <AppText>{listing.id === 1 ? 'Please send what type of training you are looking for and how often. ' +
-                            'I will get back to you within 24 hours.' : 'Goodbye' }</AppText>
-                        {/*<ListItem*/}
-                        {/*    image={require('../assets/jzpic.jpeg')}*/}
-                        {/*    title='Jesse'*/}
-                        {/*    subTitle='5 Listings'*/}
-                        {/*/>*/}
+                        <AppText style={styles.description}>
+                            Ready to transform your fitness journey? Send me a message about your goals, 
+                            training preferences, and schedule. I'll get back to you within 24 hours to 
+                            discuss your personalized training plan.
+                        </AppText>
+                        <AppText style={styles.subDescription}>
+                            • One-on-one personal training
+                            • Flexible scheduling
+                        </AppText>
                     </View>
                 </View>
                 <ContactTrainerForm listing={listing}/>
@@ -59,7 +61,18 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     userContainer: {
-        marginVertical: 40,
+        marginVertical: 30,
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
+        marginBottom: 20,
+        color: '#333',
+    },
+    subDescription: {
+        fontSize: 14,
+        lineHeight: 20,
+        color: '#666',
     }
 });
 

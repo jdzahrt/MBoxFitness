@@ -23,12 +23,42 @@ function ContactTrainerForm({listing}) {
     const [messages, setMessages] = React.useState([]);
 
     const handleSubmit = async ({message}, {resetForm}) => {
-        const result = await messagesApi.sendMessage(message, listing.id, user?.email)
+        if (!user) {
+            console.log('User not authenticated');
+            return;
+        }
+        
+        // Use a default trainer ID - you should replace this with your actual trainer user ID
+        const trainerId = listing.userId || '82d9325a-6775-4c94-9daa-5d3f1ca34cd8'; // Your trainer ID
+        
+        console.log('Sending message:', { message, trainerId, user: user.id });
+        
+        const result = await messagesApi.sendMessage(
+            message, 
+            trainerId,
+            'Training Inquiry',
+            'training_request'
+        )
+
+        console.log('Message result:', result);
 
         if (!result.ok) {
-            console.log('Error sending message:', result.problem)
+            console.log('Error sending message:', {
+                problem: result.problem,
+                status: result.status,
+                data: result.data,
+                originalError: result.originalError
+            });
+            // Show user-friendly error
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: 'Message failed to send',
+                    body: 'Please try again later',
+                },
+                trigger: null,
+            });
         } else {
-            setMessages([...messages, {message, email: user?.email, listingId: listing.id}])
+            setMessages([...messages, {content: message, recipient: trainerId}])
 
             await Notifications.scheduleNotificationAsync({
                 content: {
