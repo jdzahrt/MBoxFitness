@@ -1,55 +1,30 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, FlatList } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import AppText from "../components/AppText";
 import { Image } from 'react-native-expo-image-cache';
 import colors from "../config/colors";
+import hikesApi from "../api/hikes";
+import useAuth from "../auth/useAuth";
+import useApi from "../hooks/useApi";
 
-function HikesScreen({ route }) {
+function HikesScreen({ route, navigation }) {
     const listing = route.params;
-
-    // Iowa and Midwest hikes data
-    const upcomingHikes = [
-        {
-            id: 1,
-            name: "Prairie Morning Walk",
-            location: "Neal Smith Trail, Altoona",
-            date: "Jan 18, 2024",
-            time: "7:00 AM",
-            difficulty: "Easy"
-        },
-        {
-            id: 2,
-            name: "Loess Hills Hike",
-            location: "Preparation Canyon State Park",
-            date: "Jan 21, 2024",
-            time: "9:00 AM",
-            difficulty: "Moderate"
-        },
-        {
-            id: 3,
-            name: "Effigy Mounds Trek",
-            location: "Effigy Mounds National Monument",
-            date: "Jan 27, 2024",
-            time: "8:00 AM",
-            difficulty: "Hard"
-        },
-        {
-            id: 4,
-            name: "Lake Walk & Meditation",
-            location: "Saylorville Lake Trail",
-            date: "Feb 3, 2024",
-            time: "6:30 AM",
-            difficulty: "Easy"
-        },
-        {
-            id: 5,
-            name: "Raccoon River Valley",
-            location: "Raccoon River Valley Trail",
-            date: "Feb 10, 2024",
-            time: "9:00 AM",
-            difficulty: "Moderate"
+    const { user } = useAuth();
+    const [hikes, setHikes] = useState([]);
+    const getHikesApi = useApi(hikesApi.getHikes);
+    
+    useEffect(() => {
+        loadHikes();
+    }, []);
+    
+    const loadHikes = async () => {
+        const result = await getHikesApi.request();
+        if (result.ok) {
+            setHikes(result.data);
         }
-    ];
+    };
+    
+    const isAdmin = user?.role === 'admin';
 
     const getDifficultyColor = (difficulty) => {
         switch (difficulty) {
@@ -96,14 +71,27 @@ function HikesScreen({ route }) {
 
                 <View style={styles.tableHeader}>
                     <AppText style={styles.headerText}>Upcoming Hikes</AppText>
+                    {isAdmin && (
+                        <TouchableOpacity 
+                            style={styles.addButton}
+                            onPress={() => navigation.navigate('CreateHike', { onHikeCreated: loadHikes })}
+                        >
+                            <AppText style={styles.addButtonText}>+ Add Hike</AppText>
+                        </TouchableOpacity>
+                    )}
                 </View>
 
                 <FlatList
-                    data={upcomingHikes}
+                    data={hikes}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={renderHikeRow}
                     scrollEnabled={false}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    ListEmptyComponent={() => (
+                        <View style={styles.emptyContainer}>
+                            <AppText style={styles.emptyText}>No hikes scheduled yet</AppText>
+                        </View>
+                    )}
                 />
             </View>
         </ScrollView>
@@ -134,6 +122,9 @@ const styles = StyleSheet.create({
         color: colors.medium,
     },
     tableHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         borderBottomWidth: 2,
         borderBottomColor: colors.primary,
         paddingBottom: 10,
@@ -195,6 +186,25 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: colors.light,
         marginHorizontal: 10,
+    },
+    addButton: {
+        backgroundColor: colors.primary,
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+        borderRadius: 5,
+    },
+    addButtonText: {
+        color: colors.white,
+        fontSize: 14,
+        fontWeight: '600',
+    },
+    emptyContainer: {
+        padding: 40,
+        alignItems: 'center',
+    },
+    emptyText: {
+        color: colors.medium,
+        fontSize: 16,
     },
 });
 

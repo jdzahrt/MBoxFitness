@@ -7,6 +7,7 @@ import EventsScreen from "../screens/EventsScreen";
 import HikesScreen from "../screens/HikesScreen";
 import MyClassesScreen from "../screens/MyClassesScreen";
 import routes from "./routes";
+import CreateHikeScreen from "../screens/CreateHikeScreen";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,10 @@ const FeedNavigator = () => (
         <Stack.Screen
             name={routes.HIKES}
             component={HikesScreen}
+        />
+        <Stack.Screen
+            name={routes.CREATE_HIKE}
+            component={CreateHikeScreen}
         />
         <Stack.Screen
             name={routes.MY_CLASSES}

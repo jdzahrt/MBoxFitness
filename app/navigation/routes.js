@@ -6,6 +6,7 @@ export default Object.freeze({
     CLASS_BOOKING: 'ClassBooking',
     EVENTS: 'Events',
     HIKES: 'Hikes',
+    CREATE_HIKE: 'CreateHike',
     LOGIN: 'Login',
     MESSAGES: 'Messages',
     MY_ACCOUNT: 'MyAccount',
