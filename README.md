@@ -1,15 +1,18 @@
 # MBoxFitness
 
-A React Native fitness marketplace app built with Expo for buying and selling fitness equipment.
+A React Native fitness app built with Expo for booking fitness classes and training sessions.
+
+## Dependencies
+
+**Backend Required**: This app requires the [MBoxFitness-Backend](https://github.com/jessezahrt/MBoxFitness-Backend) service to function properly.
 
 ## Features
 
-- Browse fitness equipment listings
+- Browse and book fitness classes
 - User authentication and profiles
-- Direct messaging with sellers
-- Image upload for listings
+- Class scheduling and booking
+- Payment integration
 - Push notifications
-- Offline support
 
 ## Tech Stack
 
@@ -54,7 +57,12 @@ app/
 
 ## EAS Build and Publish
 ```bash
+# Install EAS CLI
+npm install -g eas-cli
+
+# Build for iOS
 eas build --platform ios 
 
+# Submit to App Store
 eas submit --platform ios
 ```

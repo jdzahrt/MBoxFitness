@@ -10,7 +10,7 @@ import useApi from "../hooks/useApi";
 import routes from "../navigation/routes";
 
 function ClassBookingScreen({ route, navigation }) {
-    const listing = route.params;
+    const listing = route?.params || {};
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
     const [selectedDate, setSelectedDate] = useState(null);

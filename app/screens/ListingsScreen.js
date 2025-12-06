@@ -1,116 +1,136 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Screen from "../components/Screen";
-import {FlatList, StyleSheet, Text} from "react-native";
-import Card from "../components/Card";
+import {StyleSheet, Text, View, Image, TouchableOpacity} from "react-native";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
-import AppButton from "../components/AppButton";
-import useApi from "../hooks/useApi";
-import listingsAPI from "../api/listings";
 
 
 function ListingsScreen({navigation}) {
-    // const getListingsApi = useApi(listingsAPI.getListings)
-    //
-    //
-    // useEffect(() => {
-    //     getListingsApi.request();
-    // }, []);
-    const mockListings = [
-        {
-            id: 1,
-            title: "Personal Training",
-            price: 75,
-            images: [
-                {
-                    url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150"
-                }
-            ]
-        },
-        {
-            id: 2,
-            title: "Mitt Groups / Classes",
-            price: 20,
-            images: [
-                {
-                    url: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=150"
-                }
-            ]
-        },
-        {
-            id: 3,
-            title: "Events",
-            price: 45,
-            images: [
-                {
-                    url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150"
-                }
-            ]
-        },
-        {
-            id: 4,
-            title: "Hikes & Walks",
-            price: 25,
-            images: [
-                {
-                    url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=400",
-                    thumbnailUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=150"
-                }
-            ]
-        }
-    ];
-
-    const getListingsApi = {data: mockListings, error: null};
+    const mittGroupsData = {
+        id: 2,
+        title: "Mitt Groups / Classes",
+        price: 20,
+        description: "Join our high-energy mitt work sessions and group fitness classes",
+        imageUrl: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600",
+        images: [
+            {
+                url: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600",
+                thumbnailUrl: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=150"
+            }
+        ]
+    };
 
     return (
-        <>
-            <Screen style={styles.screen}>
-                {/*{getListingsApi.error && (*/}
-                {/*    <>*/}
-                {/*        <Text>Could not retrieve the listings.</Text>*/}
-                {/*        <AppButton title="Retry" onPress={getListingsApi.request}/>*/}
-                {/*    </>*/}
-                {/*)}*/}
-
-                <FlatList
-                    data={getListingsApi.data}
-                    keyExtractor={listing => listing.id.toString()}
-                    renderItem={({item}) =>
-                        <Card
-                            title={item.title}
-                            subTitle={'$' + item.price}
-                            imageUrl={item.images[0].url}
-                            onPress={() => {
-                                // Navigate to different screens based on listing type
-                                if (item.id === 1) { // Personal Training
-                                    navigation.navigate(routes.PERSONAL_TRAINING, item);
-                                } else if (item.id === 2) { // Mitt Groups / Classes
-                                    navigation.navigate(routes.CLASS_BOOKING, item);
-                                } else if (item.id === 3) { // Events
-                                    navigation.navigate(routes.EVENTS, item);
-                                } else if (item.id === 4) { // Hikes & Walks
-                                    navigation.navigate(routes.HIKES, item);
-                                } else {
-                                    // Handle other listing types or show an error message
-                                    console.error('Unknown listing type:', item.id);
-                                }
-                            }}
-                            thumbnailUrl={item.images[0].thumbnailUrl}
-                        />
-                    }
-                />
-            </Screen>
-        </>
+        <Screen style={styles.screen}>
+            <View style={styles.container}>
+                <Text style={styles.headerTitle}>Fitness Classes</Text>
+                <Text style={styles.headerSubtitle}>Book your next workout session</Text>
+                
+                <TouchableOpacity 
+                    style={styles.classCard}
+                    onPress={() => navigation.navigate(routes.CLASS_BOOKING, mittGroupsData)}
+                    activeOpacity={0.8}
+                >
+                    <Image 
+                        source={{uri: mittGroupsData.imageUrl}} 
+                        style={styles.classImage}
+                        resizeMode="cover"
+                    />
+                    <View style={styles.cardContent}>
+                        <Text style={styles.classTitle}>{mittGroupsData.title}</Text>
+                        <Text style={styles.classDescription}>{mittGroupsData.description}</Text>
+                        <View style={styles.priceContainer}>
+                            <Text style={styles.priceLabel}>Starting at</Text>
+                            <Text style={styles.price}>${mittGroupsData.price}</Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Text style={styles.buttonText}>Book Now</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        </Screen>
     );
 }
 
 const styles = StyleSheet.create({
     screen: {
+        backgroundColor: colors.light,
+        flex: 1
+    },
+    container: {
+        flex: 1,
         padding: 20,
-        backgroundColor: colors.light
+        justifyContent: 'center'
+    },
+    headerTitle: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: colors.dark,
+        textAlign: 'center',
+        marginBottom: 8
+    },
+    headerSubtitle: {
+        fontSize: 16,
+        color: colors.medium,
+        textAlign: 'center',
+        marginBottom: 40
+    },
+    classCard: {
+        borderRadius: 20,
+        overflow: 'hidden',
+        elevation: 8,
+        shadowColor: colors.dark,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        backgroundColor: colors.white
+    },
+    classImage: {
+        width: '100%',
+        height: 200
+    },
+    cardContent: {
+        padding: 24,
+        backgroundColor: colors.white
+    },
+    classTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.dark,
+        marginBottom: 8
+    },
+    classDescription: {
+        fontSize: 16,
+        color: colors.medium,
+        marginBottom: 16,
+        lineHeight: 22
+    },
+    priceContainer: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        marginBottom: 20
+    },
+    priceLabel: {
+        fontSize: 14,
+        color: colors.medium,
+        marginRight: 8
+    },
+    price: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: colors.primary
+    },
+    buttonContainer: {
+        backgroundColor: colors.primary,
+        paddingVertical: 16,
+        borderRadius: 12,
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: colors.white,
+        fontSize: 18,
+        fontWeight: '600'
     }
 });
 
