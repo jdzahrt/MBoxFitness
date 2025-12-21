@@ -3,6 +3,7 @@ import {View, StyleSheet, FlatList} from "react-native";
 
 import Screen from "../components/Screen";
 import ListItem from "../components/lists/ListItem";
+import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
 import ListItemSeparator from "../components/lists/ListItemSeparator";
@@ -11,7 +12,7 @@ import useAuth from "../auth/useAuth";
 
 const menuItems = [
     {
-        title: 'My Classes',
+        title: 'My Training Sessions',
         icon: {
             name: 'dumbbell',
             backgroundColor: colors.primary
@@ -26,19 +27,25 @@ const menuItems = [
         },
         targetScreen: routes.MESSAGES
     },
+    {
+        title: 'Reset Password',
+        icon: {
+            name: 'lock-reset',
+            backgroundColor: colors.danger
+        },
+        targetScreen: routes.RESET_PASSWORD
+    },
 ]
 
 function MyAccountScreen({navigation}) {
     const {user, logOut} = useAuth();
+    console.log(user, user.name,user.email);
 
     return (
         <Screen style={styles.screen}>
-            <View style={styles.container}>
-                <ListItem
-                    title={user.name}
-                    subTitle={user.email}
-                    // image={require('../assets/jzpic.jpeg')}
-                />
+            <View style={styles.userInfo}>
+                <AppText style={styles.userName}>{user.name}</AppText>
+                <AppText style={styles.userEmail}>{user.email}</AppText>
             </View>
             <View style={styles.container}>
                 <FlatList
@@ -76,6 +83,30 @@ function MyAccountScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         marginVertical: 20
+    },
+    userInfo: {
+        backgroundColor: colors.white,
+        padding: 30,
+        marginVertical: 20,
+        borderRadius: 15,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3
+    },
+    userName: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        color: colors.dark,
+        textAlign: 'center'
+    },
+    userEmail: {
+        fontSize: 16,
+        color: colors.medium,
+        textAlign: 'center'
     },
     listingsContainer: {
         flex: 1,

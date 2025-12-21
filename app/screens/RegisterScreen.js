@@ -19,7 +19,6 @@ const validationSchema = Yup.object().shape({
 
 function RegisterScreen(props) {
     const registerApi = useApi(usersApi.addUser)
-    const loginApi = useApi(authAPI.login)
     const {logIn} = useAuth()
     const [error, setError] = React.useState(null)
     const [success, setSuccess] = React.useState(null)
@@ -37,15 +36,12 @@ function RegisterScreen(props) {
 
         setError(null)
         setSuccess('Registration successful! Logging you in...')
-        
+
         // Auto-login after successful registration
-        const loginResult = await loginApi.request(
-            user.email,
-            user.password
-        )
-        
+        const loginResult = await authAPI.login(user.email, user.password)
+        console.log('loginResult', loginResult)
         if (loginResult.ok) {
-            logIn(loginResult.data.token)
+            logIn(loginResult.data.token, loginResult.data.user)
         } else {
             setError('Registration successful but login failed. Please try logging in manually.')
         }

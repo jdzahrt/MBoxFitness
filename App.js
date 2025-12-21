@@ -12,6 +12,7 @@ import {View} from "react-native";
 import * as Sentry from '@sentry/react-native';
 import PushNotificationHandler from "./app/components/PushNotificationHandler";
 
+
 Sentry.init({
   dsn: 'https://9ce9fc4d7a65bac758bcabb77138dd4f@o4509271345987584.ingest.us.sentry.io/4509271358504960',
   debug: __DEV__,
@@ -30,6 +31,15 @@ Sentry.init({
 function App() {
   const [user, setUser] = useState(null);
   const [isReady, setIsReady] = useState(false);
+
+  const linking = {
+    prefixes: ['mboxfitness://'],
+    config: {
+      screens: {
+        ResetPassword: 'reset-password',
+      },
+    },
+  };
 
   useEffect(() => {
     const prepare = async () => {
@@ -61,7 +71,7 @@ function App() {
       <AuthContext.Provider value={{user, setUser}}>
         <PushNotificationHandler />
         <OfflineNotice/>
-        <NavigationContainer theme={navigationTheme}>
+        <NavigationContainer theme={navigationTheme} linking={linking}>
           {user ? <AppNavigator/> : <AuthNavigator/>}
         </NavigationContainer>
       </AuthContext.Provider>

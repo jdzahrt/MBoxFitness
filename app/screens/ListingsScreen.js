@@ -8,9 +8,9 @@ import routes from "../navigation/routes";
 function ListingsScreen({navigation}) {
     const mittGroupsData = {
         id: 2,
-        title: "Mitt Groups / Classes",
-        price: 20,
-        description: "Join our high-energy mitt work sessions and group fitness classes",
+        title: "Training Sessions",
+        price: 30,
+        description: "Get 1-on-1 training to hit your boxing goals",
         imageUrl: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600",
         images: [
             {
@@ -23,16 +23,16 @@ function ListingsScreen({navigation}) {
     return (
         <Screen style={styles.screen}>
             <View style={styles.container}>
-                <Text style={styles.headerTitle}>Fitness Classes</Text>
+                <Text style={styles.headerTitle}>Training Sessions</Text>
                 <Text style={styles.headerSubtitle}>Book your next workout session</Text>
-                
-                <TouchableOpacity 
+
+                <TouchableOpacity
                     style={styles.classCard}
                     onPress={() => navigation.navigate(routes.CLASS_BOOKING, mittGroupsData)}
                     activeOpacity={0.8}
                 >
-                    <Image 
-                        source={{uri: mittGroupsData.imageUrl}} 
+                    <Image
+                        source={{uri: mittGroupsData.imageUrl}}
                         style={styles.classImage}
                         resizeMode="cover"
                     />

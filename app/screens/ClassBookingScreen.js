@@ -17,15 +17,15 @@ function ClassBookingScreen({ route, navigation }) {
     const [selectedTime, setSelectedTime] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // Mock class schedule data
-    const classSchedule = {
-        '2025-08-15': ['9:00 AM', '11:00 AM', '6:00 PM'],
-        '2025-08-16': ['10:00 AM', '7:00 PM'],
-        '2025-08-17': ['9:00 AM', '5:00 PM'],
-        '2025-08-18': ['11:00 AM', '6:00 PM'],
-        '2025-08-19': ['9:00 AM', '10:00 AM', '7:00 PM'],
-    };
+    // Generate next 5 days with consistent time slots
+    const classSchedule = {};
 
+    for (let i = 2; i <= 7; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        const dateStr = date.toISOString().split('T')[0];
+        classSchedule[dateStr] = ['4:00 PM', '5:00 PM'];
+    }
     const availableDates = Object.keys(classSchedule);
 
     const createBookingApi = useApi(bookingApi.createBooking);
@@ -36,37 +36,37 @@ function ClassBookingScreen({ route, navigation }) {
             Alert.alert('Please select both date and time');
             return;
         }
-        
+
         setLoading(true);
-        
+
         try {
             // Create payment intent
             const paymentResult = await createPaymentIntentApi.request(listing.price);
-            
+
             if (!paymentResult.ok) {
                 Alert.alert('Error', 'Failed to initialize payment');
                 return;
             }
-            
+
             // Initialize payment sheet
             const { error } = await initPaymentSheet({
                 merchantDisplayName: 'MBox Fitness',
                 paymentIntentClientSecret: paymentResult.data.clientSecret,
             });
-            
+
             if (error) {
                 Alert.alert('Error', error.message);
                 return;
             }
-            
+
             // Present payment sheet
             const { error: paymentError } = await presentPaymentSheet();
-            
+
             if (paymentError) {
                 Alert.alert('Payment cancelled', paymentError.message);
                 return;
             }
-            
+
             // Create booking after successful payment
             const bookingData = {
                 classId: listing.id,
@@ -76,12 +76,12 @@ function ClassBookingScreen({ route, navigation }) {
                 price: listing.price,
                 paymentIntentId: paymentResult.data.id
             };
-            
+
             const result = await createBookingApi.request(bookingData);
-            
+
             if (result.ok) {
                 Alert.alert(
-                    'Success!', 
+                    'Success!',
                     `${listing.title} booked for ${selectedDate} at ${selectedTime}`,
                     [{ text: 'OK', onPress: () => navigation.navigate(routes.LISTINGS) }]
                 );
@@ -96,25 +96,27 @@ function ClassBookingScreen({ route, navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView 
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 100 }}
+            >
                 <Image
                     style={styles.image}
                     preview={{ uri: listing.images[0].thumbnailUrl }}
                     tint={"light"}
                     uri={listing.images[0].url}
                 />
-                
+
                 <View style={styles.detailsContainer}>
                     <AppText style={styles.title}>{listing.title}</AppText>
                     <AppText style={styles.price}>${listing.price} per class</AppText>
-                    
+
                     <AppText style={styles.description}>
-                        High-intensity boxing classes with focus mitts. Perfect for all skill levels.
-                        Build strength, improve technique, and have fun!
+                        Get 1-on-1 training to hit your boxing goals
                     </AppText>
 
                     <AppText style={styles.sectionTitle}>Select Date:</AppText>
@@ -135,10 +137,10 @@ function ClassBookingScreen({ route, navigation }) {
                                     styles.dateText,
                                     selectedDate === date && styles.selectedDateText
                                 ]}>
-                                    {new Date(date).toLocaleDateString('en-US', { 
-                                        weekday: 'short', 
-                                        month: 'short', 
-                                        day: 'numeric' 
+                                    {new Date(date).toLocaleDateString('en-US', {
+                                        weekday: 'short',
+                                        month: 'short',
+                                        day: 'numeric'
                                     })}
                                 </AppText>
                             </TouchableOpacity>
@@ -170,7 +172,7 @@ function ClassBookingScreen({ route, navigation }) {
                         </>
                     )}
 
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={[
                             styles.bookButton,
                             (!selectedDate || !selectedTime || loading) && styles.disabledButton

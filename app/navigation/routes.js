@@ -10,5 +10,7 @@ export default Object.freeze({
     LOGIN: 'Login',
     MESSAGES: 'Messages',
     MY_ACCOUNT: 'MyAccount',
-    MY_CLASSES: 'MyClasses'
+    MY_CLASSES: 'MyClasses',
+    FORGOT_PASSWORD: 'ForgotPassword',
+    RESET_PASSWORD: 'ResetPassword'
 })

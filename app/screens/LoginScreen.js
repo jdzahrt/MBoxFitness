@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import Screen from '../components/Screen'
 
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image, TouchableOpacity} from 'react-native';
+import AppText from '../components/AppText';
 
 import * as Yup from "yup";
 import {AppForm, AppFormField, SubmitButton, ErrorMessage} from '../components/forms'
 import authAPI from "../api/auth";
 import useAuth from "../auth/useAuth";
 import colors from "../config/colors";
+import routes from "../navigation/routes";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label('Email'),
@@ -24,7 +26,7 @@ function LoginScreen(props) {
             setError(result.data?.message || "Invalid email and/or password.")
             return
         }
-
+        console.log('rizzydata', result.data)
         setError(null)
         logIn(result.data.token, result.data.user)
     }
@@ -63,6 +65,12 @@ function LoginScreen(props) {
                     onSubmitEditing={() => handleSubmit}
                 />
                 <SubmitButton title='Login'/>
+                <TouchableOpacity
+                    style={styles.forgotPassword}
+                    onPress={() => props.navigation.navigate(routes.FORGOT_PASSWORD)}
+                >
+                    <AppText style={styles.forgotPasswordText}>Forgot Password?</AppText>
+                </TouchableOpacity>
             </AppForm>
         </Screen>
     );
@@ -79,6 +87,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 50,
         marginBottom: 20,
+    },
+    forgotPassword: {
+        alignSelf: 'center',
+        marginTop: 15,
+    },
+    forgotPasswordText: {
+        color: colors.primary,
+        fontSize: 16,
     }
 });
 

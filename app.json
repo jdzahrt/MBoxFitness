@@ -4,6 +4,7 @@
     "slug": "MBoxFitness",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "mboxfitness",
     "platforms": [
       "ios",
       "android",
@@ -39,7 +40,8 @@
           "icon": "./app/assets/MBOX.jpeg",
           "color": "#ffffff"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "android": {
       "jsEngine": "hermes",
